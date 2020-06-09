@@ -75,7 +75,7 @@ class IntervieweeController {
   async show ({request, response}) {
     response.status(200).json({
       message: 'Here is your Interviewee.',
-      data: request.auth
+      data: request.post().auth
     })
   }
 
@@ -100,6 +100,29 @@ class IntervieweeController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const { First_Name, Last_Name, 
+      DOB, Is_deleted, deleted_at,
+      email, password, interviewee
+    } = request.post()
+
+    
+     //const {intervieweex}  = request.interviewee
+     //console.log(interviewee)
+    interviewee.First_Name = First_Name
+    interviewee.Last_Name= Last_Name
+    interviewee.DOB = DOB
+    interviewee.Is_deleted = Is_deleted
+    interviewee.deleted_at = deleted_at
+    interviewee.email = email
+    interviewee.password = password
+
+    await interviewee.save()
+
+    response.status(200).json({
+      message: 'Successfully updated this customer.',
+      data: interviewee
+    })
+
   }
 
   /**
