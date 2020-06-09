@@ -12,7 +12,7 @@ class FindInterviewee {
    * @param {Request} ctx.request
    * @param {Function} next
    */
-  async handle ({ request, response, params:{id} }, next) {
+  async handle ({ request, response, params:{id, pid} }, next) {
     // call next to advance the request
     request.auth="failed";
     if(id==1){
@@ -34,6 +34,11 @@ class FindInterviewee {
     }
 
     // request.interviewee = ivee;
+  }
+  else if(pid){
+    const obj = await interviewee.find(pid)
+    //console.log(obj)
+    request.interviewee = obj;
   }
 
     await next()

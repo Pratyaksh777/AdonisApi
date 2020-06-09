@@ -75,7 +75,7 @@ class IntervieweeController {
   async show ({request, response}) {
     response.status(200).json({
       message: 'Here is your Interviewee.',
-      data: request.post().auth
+      data: request.post().interviewee
     })
   }
 
@@ -122,6 +122,35 @@ class IntervieweeController {
       message: 'Successfully updated this customer.',
       data: interviewee
     })
+
+  }
+
+/**
+    *Update a login time with id 
+   *
+   * @param {object} ctx
+   * @param {Request} ctx.request
+   * @param {Response} ctx.response
+   */
+
+  async utime({params, request, response}){
+    const interviewee
+     = request.interviewee
+    // var date = new Date();
+
+    var currentTime = new Date();
+
+var currentOffset = currentTime.getTimezoneOffset();
+
+var ISTOffset = 330;   // IST offset UTC +5:30 
+
+var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+    
+    var ty =ISTTime.toISOString().split('T')[0] + ' '  
+    + ISTTime.toTimeString().split(' ')[0];
+    interviewee.last_login = ty
+    await interviewee.save()
+    console.log(interviewee.last_login)
 
   }
 

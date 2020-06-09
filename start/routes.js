@@ -21,16 +21,19 @@ Route.get('/', () => {
 })
 
 Route.get('interviewees', 'IntervieweeController.index')
-// Route.get('interviewees/:email&:password', 'IntervieweeController.show').middleware([
-//   'findInterviewee'
-// ])
+Route.get('interviewees/:email&:password', 'IntervieweeController.show').middleware([
+  'findInterviewee'
+])
 Route.post('interviewees', 'IntervieweeController.store')
 Route.post('interviewees/:id', 'IntervieweeController.show').middleware([
   'findInterviewee'
 ])
-Route.patch('interviewees/:id', 'IntervieweeController.update').middleware([
+Route.post('timeupdate/:pid', 'IntervieweeController.utime').middleware([
   'findInterviewee'
 ])
-Route.delete('interviewees/:id', 'IntervieweeController.delete').middleware([
+Route.patch('interviewees/:email', 'IntervieweeController.update').middleware([
+  'findInterviewee'
+])
+Route.delete('interviewees/:email', 'IntervieweeController.delete').middleware([
   'findInterviewee'
 ])
