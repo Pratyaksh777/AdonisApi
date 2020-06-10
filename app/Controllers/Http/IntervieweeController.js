@@ -72,11 +72,39 @@ class IntervieweeController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({request, response}) {
+  //Login controller method
+  async show ({request, response, params}) {
+    const { First_Name, Last_Name, 
+      DOB, 
+      email, password, interviewee
+    } = request.post()
+    if(interviewee!=undefined && interviewee.Is_deleted==0){
+    var currentTime = new Date();
+
+    var currentOffset = currentTime.getTimezoneOffset();
+    
+    var ISTOffset = 330;   // IST offset UTC +5:30 
+    
+    var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+        
+        var ty =ISTTime.toISOString().split('T')[0] + ' '  
+        + ISTTime.toTimeString().split(' ')[0];
+        interviewee.last_login = ty
+        await interviewee.save()
+    
     response.status(200).json({
       message: 'Here is your Interviewee.',
       data: request.post().interviewee
     })
+  }
+  else{
+    response.status(200).json({
+      message: "Account doesn't exist",
+    
+    })
+
+  }
+
   }
 
   /**
@@ -101,7 +129,7 @@ class IntervieweeController {
    */
   async update ({ params, request, response }) {
     const { First_Name, Last_Name, 
-      DOB, Is_deleted, deleted_at,
+      DOB, 
       email, password, interviewee
     } = request.post()
 
@@ -111,8 +139,6 @@ class IntervieweeController {
     interviewee.First_Name = First_Name
     interviewee.Last_Name= Last_Name
     interviewee.DOB = DOB
-    interviewee.Is_deleted = Is_deleted
-    interviewee.deleted_at = deleted_at
     interviewee.email = email
     interviewee.password = password
 
@@ -140,11 +166,11 @@ class IntervieweeController {
 
     var currentTime = new Date();
 
-var currentOffset = currentTime.getTimezoneOffset();
+    var currentOffset = currentTime.getTimezoneOffset();
 
-var ISTOffset = 330;   // IST offset UTC +5:30 
+    var ISTOffset = 330;   // IST offset UTC +5:30 
 
-var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+    var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
     
     var ty =ISTTime.toISOString().split('T')[0] + ' '  
     + ISTTime.toTimeString().split(' ')[0];
@@ -152,6 +178,15 @@ var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000
     await interviewee.save()
     console.log(interviewee.last_login)
 
+  }
+
+  async form({ params, request, response }){
+    const interviewee
+     = request.interviewee
+     response.status(200).json({
+      message: 'Successfully Found this customer.',
+      data: interviewee
+    })
   }
 
   /**
@@ -162,6 +197,30 @@ var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
+
+    async softdel({ params, request, response }){
+      const interviewee = request.interviewee;
+      interviewee.Is_deleted =1;
+      var currentTime = new Date();
+
+      var currentOffset = currentTime.getTimezoneOffset();
+
+      var ISTOffset = 330;   // IST offset UTC +5:30 
+
+      var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+          
+      var ty =ISTTime.toISOString().split('T')[0] + ' '  
+      + ISTTime.toTimeString().split(' ')[0];
+      interviewee.deleted_at = ty
+      await interviewee.save()
+
+      response.status(200).json({
+        message: 'Successfully Deleted this account.',
+      })
+        
+      }
+
+
   async destroy ({ params, request, response }) {
   }
 }
