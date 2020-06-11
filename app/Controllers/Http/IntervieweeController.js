@@ -1,5 +1,6 @@
 'use strict'
 const interviewee = use('App/Models/Interviewee')
+const Hash = use('Hash')
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -51,16 +52,30 @@ class IntervieweeController {
       DOB, Is_deleted, deleted_at,
       email, password, last_login
     } = request.post()
-
+    
+    try{
+      await interviewee.findByOrFail('email', email)
+      response.status(201).json({
+        message: 'Error! An account with that email already exists',
+        success:'false'
+      })
+    }catch(error){
+    const safePassword = await Hash.make(password)
+   
+    console.log(safePassword)
     // save and get instance back
     const customer = await interviewee.create({ First_Name, Last_Name, 
       DOB, Is_deleted, deleted_at,
-      email, password, last_login })
+      email, password:safePassword, last_login })
 
     response.status(201).json({
       message: 'Successfully created a new Interviewee.',
-      data: customer
+     success:'true'
     })
+
+    }
+  
+  
   }
 
   /**
@@ -139,14 +154,16 @@ class IntervieweeController {
     interviewee.First_Name = First_Name
     interviewee.Last_Name= Last_Name
     interviewee.DOB = DOB
-    interviewee.email = email
-    interviewee.password = password
+    interviewee.email = email;
+    const safePassword = await Hash.make(password);
+    interviewee.password = safePassword
 
     await interviewee.save()
 
     response.status(200).json({
       message: 'Successfully updated this customer.',
-      data: interviewee
+      data: interviewee,
+      success:"success"
     })
 
   }
