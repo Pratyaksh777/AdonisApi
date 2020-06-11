@@ -144,20 +144,23 @@ class IntervieweeController {
    */
   async update ({ params, request, response }) {
     const { First_Name, Last_Name, 
-      DOB, 
+      DOB, Newpassword,
       email, password, interviewee
     } = request.post()
 
-    
+      // console.log(Newpassword)
      //const {intervieweex}  = request.interviewee
      //console.log(interviewee)
+     
+
     interviewee.First_Name = First_Name
     interviewee.Last_Name= Last_Name
     interviewee.DOB = DOB
     interviewee.email = email;
+    if(Newpassword){
     const safePassword = await Hash.make(password);
     interviewee.password = safePassword
-
+    }
     await interviewee.save()
 
     response.status(200).json({
@@ -165,7 +168,7 @@ class IntervieweeController {
       data: interviewee,
       success:"success"
     })
-
+    
   }
 
 /**

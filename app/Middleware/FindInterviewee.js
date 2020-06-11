@@ -29,7 +29,7 @@ class FindInterviewee {
       }
 
     else{
-      return response.status(404).json({
+      return response.status(200).json({
         message: 'Interviewee not found.',
         // id
       })
@@ -64,12 +64,37 @@ class FindInterviewee {
     console.log("patch")
     const obj = await interviewee.find(patchid)
     if(!obj){
+      console.log("patch2")
       return response.status(404).json({
         message: 'Some error ocurred.',
         success:"failed"
       })
     }
-    request.body.interviewee = obj;
+    else{
+      const {email} = request.post()
+
+      const pers = await interviewee.findBy('email', email)
+      
+      if(pers){
+        if(pers.id==patchid){
+          //Existing account of the same person
+          request.body.interviewee = obj;
+        }
+        else{
+          response.status(200).json({
+            message: "Account doesn't exist",
+            success:"failed"
+          })
+      
+        }
+      }
+      else{
+        //New available email ID
+        request.body.interviewee = obj;
+      }
+      
+    }
+    
     
   }
   else if(did){
