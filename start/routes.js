@@ -41,3 +41,21 @@ Route.patch('interviewees/:patchid', 'IntervieweeController.update').middleware(
 Route.delete('interviewees/:email', 'IntervieweeController.delete').middleware([
   'findInterviewee'
 ])
+
+//Ritam's routes
+
+Route.get('properties', 'PropertyController.index')
+Route.get('properties/:id', 'PropertyController.show')
+Route.get('properties/name/:name', 'PropertyController.showByName')
+Route.post('properties', 'PropertyController.store')
+Route.patch('properties/:id', 'PropertyController.update')
+Route.delete('properties/:id', 'PropertyController.delete')
+
+//Pratyaksh's Routes
+
+Route.get('interviews', 'InterviewController.index')
+Route.get('interviews/:id', 'InterviewController.show')
+Route.post('interviews', 'InterviewController.store')
+Route.patch('interviews/:id', 'InterviewController.update').middleware(['findinterview'])
+Route.delete('interviews/:id', 'InterviewController.delete').middleware(['findinterview'])
+Route.get('interviews/name/:title', 'InterviewController.showByName')

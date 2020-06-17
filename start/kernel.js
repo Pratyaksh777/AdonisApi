@@ -38,6 +38,7 @@ const globalMiddleware = [
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   guest: 'Adonis/Middleware/AllowGuestOnly',
+  findinterview:'App/Middleware/FindInterView',
   findInterviewee: 'App/Middleware/FindInterviewee'
 }
 
