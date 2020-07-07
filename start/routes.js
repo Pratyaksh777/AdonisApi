@@ -34,6 +34,8 @@ Route.post('interviewees/:id', 'IntervieweeController.show').middleware([
 Route.post('timeupdate/:pid', 'IntervieweeController.utime').middleware([
   'findInterviewee'
 ])
+Route.post('googlesign', 'IntervieweeController.verify')
+Route.post('googleup', 'IntervieweeController.register')
 
 Route.patch('interviewees/:patchid', 'IntervieweeController.update').middleware([
   'findInterviewee'
@@ -59,3 +61,8 @@ Route.post('interviews', 'InterviewController.store')
 Route.patch('interviews/:id', 'InterviewController.update').middleware(['findinterview'])
 Route.delete('interviews/:id', 'InterviewController.delete').middleware(['findinterview'])
 Route.get('interviews/name/:title', 'InterviewController.showByName')
+
+Route.get('profiles', 'ProfileController.index')
+Route.get('profiles/:id', 'ProfileController.show')
+Route.post('profiles', 'ProfileController.store')
+Route.delete('profiles/:id', 'ProfileController.delete')
