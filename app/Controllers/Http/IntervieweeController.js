@@ -53,7 +53,7 @@ class IntervieweeController {
     console.log("Hello")
     const { First_Name, Last_Name, 
       DOB, Is_deleted, deleted_at,
-      email, password, last_login,Role_id,Modules
+      email, password, last_login,Role_id,A,B,C,D
     } = request.post()
     
     try{
@@ -69,7 +69,7 @@ class IntervieweeController {
     // save and get instance back
     const customer = await interviewee.create({ First_Name, Last_Name, 
       DOB, Is_deleted, deleted_at,
-      email, password:safePassword, last_login ,Role_id,Modules})
+      email, password:safePassword, last_login ,Role_id,A,B,C,D})
 
     response.status(201).json({
       message: 'Successfully created a new Interviewee.',
@@ -94,7 +94,7 @@ class IntervieweeController {
   async show ({request, response, params}) {
     const { First_Name, Last_Name, 
       DOB, 
-      email, password, Role_id,Modules,interviewee
+      email, password, Role_id,A,B,C,D,interviewee
     } = request.post()
     if(interviewee!=undefined && interviewee.Is_deleted==0){
     var currentTime = new Date();
@@ -148,7 +148,7 @@ class IntervieweeController {
   async update ({ params, request, response }) {
     const { First_Name, Last_Name, 
       DOB, Newpassword,
-      email, password, Role_id,Modules,interviewee
+      email, password, Role_id,A,B,C,D,interviewee
     } = request.post()
 
       // console.log(Newpassword)
@@ -161,7 +161,10 @@ class IntervieweeController {
     interviewee.DOB = DOB
     interviewee.Role_id= Role_id
     interviewee.email = email;
-    interviewee.Modules = Modules
+    interviewee.A =A
+    interviewee.B =B
+    interviewee.C =C 
+    interviewee.D =D   
     if(Newpassword){
     const safePassword = await Hash.make(password);
     interviewee.password = safePassword
@@ -311,7 +314,7 @@ class IntervieweeController {
           const last_login = "0000-00-00 00:00:00";
           const customer = await interviewee.create({ First_Name, Last_Name, 
             DOB, Is_deleted, deleted_at,
-            email,password, last_login, Social, Role_id:0, Modules:15 })
+            email,password, last_login, Social, Role_id:0, A:1,B:1,C:1,D:1 })
     
     
           response.status(201).json({

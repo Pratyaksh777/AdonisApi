@@ -18,7 +18,10 @@ class IntervieweesSchema extends Schema {
       table.dateTime('last_login').notNullable()
       table.string('Social')
       table.integer('Role_id').notNullable().defaultTo(0)
-      table.integer('Modules').notNullable().defaultTo(15)
+      table.integer('A').notNullable().defaultTo(1)
+      table.integer('B').notNullable().defaultTo(1)
+      table.integer('C').notNullable().defaultTo(1)
+      table.integer('D').notNullable().defaultTo(1)
     })
   }
 

@@ -47,15 +47,15 @@ class ProfileController {
    * @param {Response} ctx.response
    */
   async store ({ request, response }) {
-    const { firstName,lastName,email,state,
+    const { firstName,lastName,email,mobile_number,state,
     city,jobTitle,compName,industry,
     compLocation,schoolName,studyField,degree,
-    skills,interests } = request.post()
-
-    const profile = await Profile.create({ firstName,lastName,email,state,
+    skills,interests,interviewee_id } = request.post()
+    
+    const profile = await Profile.create({ firstName,lastName,email,mobile_number,state,
       city,jobTitle,compName,industry,
       compLocation,schoolName,studyField,degree,
-      skills,interests })
+      skills,interests,interviewee_id })
 
     response.status(201).json({
       message: "Successfully created New Profile.",
